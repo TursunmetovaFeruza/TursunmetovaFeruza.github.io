@@ -1,11 +1,11 @@
 	var i=0;
 	var images=[];
 	images=[
-	'../MongoDB/style/img/1.jpg',
-	'../MongoDB/style/img/2.jpg',
-	'../MongoDB/style/img/3.jpg',
-	'../MongoDB/style/img/4.jpg',
-	'../MongoDB/style/img/5.jpg'
+	'../style/img/1.jpg',
+	'../style/img/2.jpg',
+	'../style/img/3.jpg',
+	'../style/img/4.jpg',
+	'../style/img/5.jpg'
 	];
 
 		document.slide.src=images[0];
@@ -39,8 +39,8 @@
 	})
 
 	images2=[
-	'../MongoDB/style/img/paint1.png',
-	'../MongoDB/style/img/paint2.png'
+	'../style/img/paint1.png',
+	'../style/img/paint2.png'
 	];
 
 	var j=images2.length;
