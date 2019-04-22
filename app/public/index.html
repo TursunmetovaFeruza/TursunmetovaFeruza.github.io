@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Second page</title>
+    <link rel="stylesheet" type="text/css" href="/style/style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+    <header class="header" id="second-page-nav">
+        <div class="container">
+            <div class="header_inner" >
+                <nav class="nav" >
+                    <a class="nav_link"  href="">Home</a>
+                    <a class="nav_link" href="">Photoapp</a>
+                    <a  href=""><img src="/style/img/logo.png"></a>
+                    <a class="nav_link" href="">Design</a>
+                    <a class="nav_link" href="">Download</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <h2 class="h1db">Текст для сохранения</h2>
+    <form name="textForm">
+        <input type="hidden" name="id" value="0" />
+        <div class="form-group">
+            <label for="text">Текст:</label>
+            <input class="form-control" name="text" />
+        </div>
+        <div class="panel-body">
+            <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+            <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+        </div>
+    </form>
+    <table class="table table-condensed table-striped table-bordered">
+        <thead><tr><th>Id</th><th>Текст</th><th></th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+  
+    <script>
+        // Получение всех пользователей
+        function Texts() {
+            $.ajax({
+                url: "/api/texts",
+                type: "GET",
+                contentType: "application/json",
+                success: function (texts) {
+                    var rows = "";
+                    $.each(texts, function (index, text) {
+                        // добавляем полученные элементы в таблицу
+                        rows += row(text);
+                    })
+                    $("table tbody").append(rows);
+                 }
+            });
+        }
+        // Получение одного пользователя
+        function GetText(id) {
+            $.ajax({
+                url: "/api/texts/"+id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (text) {
+                    var form = document.forms["textForm"];
+                    form.elements["id"].value = text._id;
+                    form.elements["text"].value = text.data;
+                }
+            });
+        }
+        // Добавление пользователя
+        function CreatData(data) {
+            $.ajax({
+                url: "api/texts",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    data: data,
+                }),
+                success: function (text) {
+                    reset();
+                    $("table tbody").append(row(text));
+                }
+            })
+        }
+        // Изменение пользователя
+        function EditData(id,data) {
+            $.ajax({
+                url: "api/texts",
+                contentType: "application/json",
+                method: "PUT",
+                data: JSON.stringify({
+                    id: id,
+                    data: data
+                }),
+                success: function (text) {
+                    reset();
+                    console.log(text);
+                    $("tr[data-rowid='" + text._id + "']").replaceWith(row(text));
+                }
+            })
+        }
+  
+        // сброс формы
+        function reset() {
+            var form = document.forms["textForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+  
+        // Удаление пользователя
+        function DeleteUser(id) {
+            $.ajax({
+                url: "api/texts/"+id,
+                contentType: "application/json",
+                method: "DELETE",
+                success: function (text) {
+                    console.log(text);
+                    $("tr[data-rowid='" + text._id + "']").remove();
+                }
+            })
+        }
+        // создание строки для таблицы
+        var row = function (text) {
+            return "<tr data-rowid='" + text._id + "'><td>" + text._id + "</td>" +
+                   "<td>" + text.data + "</td> <td><a class='editLink' data-id='" + text._id + "'>Изменить</a> | " +
+                    "<a class='removeLink' data-id='" + text._id + "'>Удалить</a></td></tr>";
+        }
+        // сброс значений формы
+        $("#reset").click(function (e) {
+  
+            e.preventDefault();
+            reset();
+        })
+  
+        // отправка формы
+        $("form").submit(function (e) {
+            e.preventDefault();
+            var id = this.elements["id"].value;
+            var data = this.elements["text"].value;
+            if (id == 0)
+                CreatData(data);
+            else
+                EditData(id, data);
+        });
+  
+        // нажимаем на ссылку Изменить
+        $("body").on("click", ".editLink", function () {
+            var id = $(this).data("id");
+            GetText(id);
+        })
+        // нажимаем на ссылку Удалить
+        $("body").on("click", ".removeLink", function () {
+            var id = $(this).data("id");
+            DeleteUser(id);
+        })
+  
+        // загрузка пользователей
+        Texts();
+    </script>
+</body>
+</html>
