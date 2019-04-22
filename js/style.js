@@ -1,11 +1,11 @@
 	var i=0;
 	var images=[];
 	images=[
-	'../style/img/1.jpg',
-	'../style/img/2.jpg',
-	'../style/img/3.jpg',
-	'../style/img/4.jpg',
-	'../style/img/5.jpg'
+	'style/img/1.jpg',
+	'style/img/2.jpg',
+	'style/img/3.jpg',
+	'style/img/4.jpg',
+	'style/img/5.jpg'
 	];
 
 		document.slide.src=images[0];
