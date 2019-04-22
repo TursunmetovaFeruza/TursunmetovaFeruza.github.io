@@ -3,7 +3,7 @@ const express = require("express");
 const Schema = mongoose.Schema;
 const app = express();
 const jsonParser = express.json();
- 
+ var port = process.env.PORT || 3000
 const textScheme = new Schema({data: String}, {versionKey: false});
 const text = mongoose.model("texts", textScheme);
  
@@ -13,7 +13,7 @@ app.use(express.static('public'))
  
 mongoose.connect("mongodb://localhost:27017/text", { useNewUrlParser: true }, function(err){
     if(err) return console.log(err);
-    app.listen(3000, function(){
+    app.listen(port, function(){
         console.log("Сервер ожидает подключения...");
     });
 });
