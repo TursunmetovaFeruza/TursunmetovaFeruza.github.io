@@ -6,8 +6,8 @@ const jsonParser = express.json();
  var port = process.env.PORT || 3000
 const textScheme = new Schema({data: String}, {versionKey: false});
 const text = mongoose.model("texts", textScheme);
- 
-app.use(express.static('public'))
+const favicon = require('express-favicon'); 
+app.use(express.static(__dirname + '/public'));
 
 //app.use(express.static(__dirname + "/public"));
  
