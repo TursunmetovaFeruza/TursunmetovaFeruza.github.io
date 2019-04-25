@@ -319,7 +319,10 @@ float: right;
 
 }
 .email-input{
-    width:300px;
+  font-family: 'Nanum Gothic', sans-serif;
+  padding-left: 10px;
+  font-size: 16px;
+  width:300px;
   height: 40px;
 }
 
