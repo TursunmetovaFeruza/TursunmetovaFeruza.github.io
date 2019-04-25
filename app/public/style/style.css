@@ -310,6 +310,7 @@ float: right;
   display: inline-block;
   padding-top: 6px;
   width: 15px;
+  margin: 3px;
 }
 
 .email-b{
